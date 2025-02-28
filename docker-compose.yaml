@@ -1,0 +1,62 @@
+services:
+  db:
+    image: postgres:16
+    container_name: DBContas
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: Contas
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+    ports:
+      - 5432:5432
+
+  api:
+    build: ./api_contas
+    container_name: api_contas
+    environment:
+      ADM_SECRET: "@fc4inj)+i8hv0sjm_$05=fv3re0-pw8!ddoye!gr&h(-892_c"
+      CLIENT_SECRET: "0ltng76ogfu(2r77&%vyfdlujzhm%u%*%hib+vhiw)w(w$l_6d"
+      PORT: 3000
+      DB_USER: postgres
+      DB_HOST: db
+      DB_DATABASE: Contas
+      DB_PASSWORD: 12345678
+      DB_NAME: 5432
+    command: sh -c "npm run seed && npm start"
+    depends_on:
+      - db
+    networks:
+      - backend
+    ports:
+      - 4200:3000
+
+  adm-front-contas:
+    build: ./adm-front-contas
+    container_name: adm-front-contas
+    ports:
+      - "4201:80"
+    depends_on:
+      - api
+    networks:
+      - frontend
+
+  user-front-contas:
+    build: ./user-front-contas
+    container_name: user-front-contas
+    ports:
+      - "4202:80"
+    depends_on:
+      - api
+    networks:
+      - frontend
+
+networks:
+  backend:
+  frontend:
+
+
+volumes:
+  db_data:

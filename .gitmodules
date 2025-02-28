@@ -1,0 +1,9 @@
+[submodule "adm-front-contas"]
+	path = adm-front-contas
+	url = https://github.com/Lucas-Beijato/adm-front-contas.git
+[submodule "user-front-contas"]
+	path = user-front-contas
+	url = https://github.com/Lucas-Beijato/user-front-contas.git
+[submodule "api_contas"]
+	path = api_contas
+	url = https://github.com/Lucas-Beijato/api_contas.git
